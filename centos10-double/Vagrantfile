@@ -1,0 +1,17 @@
+Vagrant.configure("2") do |config|
+  # Define first VM
+  config.vm.define "centos1" do |centos1|
+    centos1.vm.box = "bento/centos-stream-10"
+    centos1.vm.hostname = "centos1"
+    # Verify you have vagrantnet-vbox1 host-only network
+    centos1.vm.network "private_network", type: "dhcp", name: "vagrantnet-vbox1"
+  end
+
+  # Define second VM
+  config.vm.define "centos2" do |centos2|
+    centos2.vm.box = "bento/centos-stream-10"
+    centos2.vm.hostname = "ubuntu2"
+    # Verify you have vagrantnet-vbox1 host-only network
+    centos2.vm.network "private_network", type: "dhcp", name: "vagrantnet-vbox1"
+  end
+end
