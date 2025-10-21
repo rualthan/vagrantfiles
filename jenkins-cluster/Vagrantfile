@@ -4,30 +4,29 @@ Vagrant.configure("2") do |config|
     master.vm.hostname = "master"
     master.vm.network "private_network", type: "dhcp", name: "vagrantnet-vbox1"
     master.vm.provision "shell", inline: <<-SHELL
-	 sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-	echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
-	sudo apt update -y
-	sudo apt install openjdk-17-jdk -y
-	sudo apt update -y
-	sudo apt install jenkins -y
-	sudo systemctl start jenkins
-	sudo systemctl enable jenkins
-	sudo -u jenkins ssh-keygen -t rsa -b 4096 -N "" -f /var/lib/jenkins/.ssh/id_rsa
-	sudo timedatectl set-timezone Asia/Kolkata
+      sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+      echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+      sudo apt update -y
+      sudo apt install openjdk-17-jdk -y
+      sudo apt update -y
+      sudo apt install jenkins -y
+      sudo systemctl start jenkins
+      sudo systemctl enable jenkins
+      sudo -u jenkins ssh-keygen -t rsa -b 4096 -N "" -f /var/lib/jenkins/.ssh/id_rsa
+      sudo timedatectl set-timezone Asia/Kolkata
     SHELL
   end
-
   config.vm.define "worker" do |worker|
     worker.vm.box = "bento/ubuntu-22.04"
     worker.vm.hostname = "worker"
     worker.vm.network "private_network", type: "dhcp", name: "vagrantnet-vbox1" 
     worker.vm.provision "shell", inline: <<-SHELL
-        sudo apt update -y
-        sudo apt install openjdk-17-jdk -y
-	sudo useradd jenkins -s /bin/bash
-	sudo mkdir -p /home/jenkins
-	sudo chown -R jenkins:jenkins /home/jenkins
-	sudo timedatectl set-timezone Asia/Kolkata
+      sudo apt update -y
+      sudo apt install openjdk-17-jdk -y
+      sudo useradd jenkins -s /bin/bash
+      sudo mkdir -p /home/jenkins
+      sudo chown -R jenkins:jenkins /home/jenkins
+      sudo timedatectl set-timezone Asia/Kolkata
     SHELL
   end
 end
